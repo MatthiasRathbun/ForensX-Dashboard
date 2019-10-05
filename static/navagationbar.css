@@ -1,0 +1,22 @@
+.navbar-brand{
+  color: rgb(124, 115, 95);
+  text-emphasis-color: rgb(124, 115, 95);
+}
+#projects_color{
+  color: rgb(124, 115, 95);
+  text-emphasis-color: rgb(124, 115, 95);
+}
+#polls_color{
+  color: rgb(124, 115, 95);
+  text-emphasis-color: rgb(124, 115, 95)
+}
+.navbar .navbar-brand:hover{
+  color: rgb(124, 115, 95);
+}
+#home_color{
+  color: rgb(124, 115, 95);
+  text-emphasis-color: rgb(124, 115, 95);
+}
+#navbar_color_wow{
+  color: #000000;
+}

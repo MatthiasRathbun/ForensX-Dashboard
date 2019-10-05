@@ -1,0 +1,51 @@
+#button_open
+    {
+display: inline;
+padding-bottom: 12.5px;
+vertical-align: top;
+    }
+
+#pollquestioncreator{
+  padding-bottom: 25px;
+}
+
+#CSearch_text
+    {
+display: inline;
+align-self: baseline;
+margin-left: 40%;
+vertical-align:middle;
+    }
+
+#project_card_1
+    {
+      padding: 25px;
+      margin: 2.5%;
+    }
+
+#project_card_2
+    {
+      padding: 25px;
+      margin: 2.5%;
+    }
+
+#project_card_3
+    {
+      padding: 25px;
+      margin: 2.5%;
+    }
+
+#card1
+{
+  display: inline;
+}
+
+#card2
+{
+  display: inline;
+}
+
+#card3
+{
+  display: inline;
+}

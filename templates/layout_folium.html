@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <header>{% block head %}{% endblock %}</header>
+  {{ folium_div|safe }}
+  {% block body %}{% endblock %}
+</body>
+</html>
+
+

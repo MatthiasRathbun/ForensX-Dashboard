@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Research Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="heading.css">
+  </head>
+  <body>
+    <div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="index.html" class="w3-bar-item w3-button">Home</a>
+      <a href="projectlistings.html" class="w3-bar-item w3-button">Projects</a>
+      <a href="polls.html" class="w3-bar-item w3-button">Polls</a>
+      <a href="create.html" class="w3-bar-item w3-button">Create</a>
+    </div>
+
+    <div zclass="w3-main" id="main">
+
+    <div class="w3-teal">
+      <button id="button_open" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      <h1 id="CSearch_text" align="center">CSearch</h1>
+    </div>
+    <div class="w3-panel w3-card" id="project_card_1">
+      <div class="form-group row">
+        <label for="example-text-input" class="col-2 col-form-label">Text</label>
+        <div class="col-10">
+          <input class="form-control" type="Name" value="First Last" id="example-text-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-search-input" class="col-2 col-form-label">Search</label>
+        <div class="col-10">
+          <input class="form-control" type="search" value="Project Title" id="example-search-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-email-input" class="col-2 col-form-label">Email</label>
+        <div class="col-10">
+          <input class="form-control" type="email" value="email@emailprovider.com" id="example-email-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-url-input" class="col-2 col-form-label">Reference URL</label>
+        <div class="col-10">
+          <input class="form-control" type="url" value="https://example.edu" id="example-url-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-tel-input" class="col-2 col-form-label">Phone Number</label>
+        <div class="col-10">
+          <input class="form-control" type="tel" value="1-(666)-666-6666" id="example-tel-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-number-input" class="col-2 col-form-label">How many needed participants?</label>
+        <div class="col-10">
+          <input class="form-control" type="number" value="42" id="example-number-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-date-input" class="col-2 col-form-label">Start Date</label>
+        <div class="col-10">
+          <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-date-input" class="col-2 col-form-label">End Date</label>
+        <div class="col-10">
+          <input class="form-control" type="date" value="2011-08-22" id="example-date-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-month-input" class="col-2 col-form-label">Month</label>
+        <div class="col-10">
+          <input class="form-control" type="month" value="2011-08" id="example-month-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-time-input" class="col-2 col-form-label">Start Time</label>
+        <div class="col-10">
+          <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-time-input" class="col-2 col-form-label">End Time</label>
+        <div class="col-10">
+          <input class="form-control" type="time" value="15:45:00" id="example-time-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-search-input" class="col-2 col-form-label">Address Line</label>
+        <div class="col-10">
+          <input class="form-control" type="search" value="Address Line" id="example-search-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-search-input" class="col-2 col-form-label">What will participants be expected to do?</label>
+        <div class="col-10">
+          <input class="form-control" type="search" value="Expectations" id="example-search-input">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-search-input" class="col-2 col-form-label">Requirements for Patients</label>
+        <div class="col-10">
+          <input class="form-control" type="search" value="Requirements" id="example-search-input">
+        </div>
+      </div>
+      <div class="row">
+  <div class="col-lg-6">
+    <div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div><div id="pollquestioncreator" class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="Checkbox for following text input">
+      </span>
+      <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div>
+      <button type="button" class="btn btn-success"><a href="polls.html">Post</a></button>
+      <button type="button" class="btn btn-danger"><a href="polls.html">Cancel</a></button>
+    </div>
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <h1>IPsearch</h1>
+  <form action="" method="POST">
+    <div class="form-group">
+      <label>Enter IP Here:</label>
+      <input type="text" name="ip" class="form-control" value={{request.form.ip}}>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+{% endblock %}

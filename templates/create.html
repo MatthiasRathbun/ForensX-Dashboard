@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Research Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="heading.css">
+  </head>
+  <body>
+    <div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="index.html" class="w3-bar-item w3-button">Home</a>
+      <a href="projectlistings.html" class="w3-bar-item w3-button">Projects</a>
+      <a href="polls.html" class="w3-bar-item w3-button">Polls</a>
+      <a href="create.html" class="w3-bar-item w3-button">Create</a>
+    </div>
+
+    <div zclass="w3-main" id="main">
+
+    <div class="w3-teal">
+      <button id="button_open" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      <h1 id="CSearch_text" align="center">CSearch</h1>
+    </div>
+    <div class="w3-panel w3-card" id="project_card_1">
+      <h1 id="h1cardtext">Create a Project Listing!</h1>
+      <h4 id="spacebetweenbutton">Come here to create a new project listing! This gets your projects infront of the eyes of the public and attracts test-subjects.</h4>
+      <p><a class="w3-card-5 btn btn-primary btn-lg" href="createform.html" role="button">Project Creation</a></p>
+    </div>
+    <div class="w3-panel w3-card" id="project_card_1">
+      <h1 id="h1cardtext">Create a Poll!</h1>
+      <h4 id="spacebetweenbutton">Come here to create a new poll! This gets your research questions quick exposure and responses.</h4>
+      <p><a class="w3-card-5 btn btn-primary btn-lg" href="createformpoll.html" role="button">Poll Creation</a></p>
+    </div>
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+</html>
