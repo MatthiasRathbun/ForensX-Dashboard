@@ -133,16 +133,59 @@ def makeGraph():
     return folium_div
 def makeCountryPie():
     df_country = df_full.groupby('Country')['ip'].nunique()
-    labels = df_country.sort_values(ascending=False).index.values
+    country_labels = df_country.sort_values(ascending=False).index.values
     country_values = df_country.sort_values(ascending=False).values
+    df_label = df_full.groupby('ISP')['ip'].nunique()
+    ISP_labels = df_label.sort_values(ascending=False).index.values
+    ISP_values = df_label.sort_values(ascending=False).values
+    df_sector = df_full.groupby('Organization Type')['ip'].nunique()
+    sector_labels = df_sector.sort_values(ascending=False).index.values
+    sector_values = df_sector.sort_values(ascending=False).values
     fig = go.Figure()
-    fig.add_trace(go.Pie(labels=labels[:10], 
+    #country
+    fig.add_trace(go.Pie(labels=country_labels[:10], 
         values=country_values[:10], domain = dict(x=[0.5,1])
-        ,text = "Exploited Devices: " + df_country.sort_values(ascending=False).apply(str).values[:10]))
-    fig.add_trace(go.Table(header = dict(values=['Country',"Exploited Devices"]), cells=dict(values = [labels[:10],country_values[:10]])
-    ,domain=dict(x=[0, 0.5])))
+        ,text = "Exploited Devices: " + df_country.sort_values(ascending=False).apply(str).values[:10],visible=True))
+    fig.add_trace(go.Table(header = dict(values=['Country',"Exploited Devices"]), cells=dict(values = [country_labels[:10],country_values[:10]])
+    ,domain=dict(x=[0, 0.5]),visible=True))
+    #ISP
+    fig.add_trace(go.Pie(labels=ISP_labels[:20], 
+        values=ISP_values[:20], domain = dict(x=[0.5,1])
+        ,text = "Exploited Devices: " + df_label.sort_values(ascending=False).apply(str).values[:20],visible=False))
+    fig.add_trace(go.Table(header = dict(values=['ISP',"Exploited Devices"]), cells=dict(values = [ISP_labels[:20],ISP_values[:20]])
+    ,domain=dict(x=[0, 0.5]),visible=False))
+    #Sectors
+    fig.add_trace(go.Pie(labels=sector_labels[:10], 
+        values=sector_values[:10], domain = dict(x=[0.5,1])
+        ,text = "Devices: " + df_sector.sort_values(ascending=False).apply(str).values[:10],visible=False))
+    fig.add_trace(go.Table(header = dict(values=['Business Sector',"Exploited Devices"]), cells=dict(values = [sector_labels[:10],sector_values[:10]])
+    ,domain=dict(x=[0, 0.5]),visible=False))
+
     fig.update_traces(hoverinfo='label+percent', textinfo='text', textfont_size=9,
                              marker=dict(line=dict(color='#000000', width=0)),selector=dict(type="pie"))
+    fig.update_layout(
+    updatemenus=[
+        go.layout.Updatemenu(
+            active=0,
+            buttons=list([
+                dict(label="Country",
+                     method="update",
+                     args=[{"visible": [True, True, False, False, False, False]},
+                           {"title": "Top 10 Countries: Exploited Devices",
+                            "annotations": []}]),
+                dict(label="ISP's",
+                     method="update",
+                     args=[{"visible": [False, False, True, True, False, False]},
+                           {"title": "Top 20 ISP's: Exploited IoT Devices",
+                            "annotations": []}]),
+                dict(label="Sectors",
+                     method="update",
+                     args=[{"visible": [False, False, False, False, True, True]},
+                           {"title": "Top 10 Business Sectors: Exploited Devices",
+                            "annotations": []}]),
+            ]),
+        )
+    ])
     fig.update_layout(title_text="Top 10 Countries: Exploited Devices")
     fig_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return fig_json
