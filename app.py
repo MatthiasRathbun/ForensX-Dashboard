@@ -27,6 +27,7 @@ jwt = JWTManager(app)
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+api = Api(app)
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
@@ -231,7 +232,17 @@ def makeIoTSectorPie():
     fig_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return fig_json
 
+class Dashboard(Resource):
+    def get(self):
+        folium_div = makeGraph()
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('index_folium.html', folium_div = folium_div),headers)
 
+class Home(Resource):
+    def get(self):
+        resp = make_response(redirect('http://127.0.0.1:5000/login'))
+        return resp
+"""
 @app.route('/')
 def index():
     folium_div = makeGraph()
@@ -260,6 +271,9 @@ def sectorReport():
     mirai_sector = makeMiraiSectorPie()
     IoT_sector = makeIoTSectorPie()
     return render_template('reports.html', Plot = Sector_Plot, IoTPlot = IoT_sector, MiraiPlot = mirai_sector)
+"""
 
+api.add_resource(Dashboard, '/dashboard')
+api.add_resource(Home, '/')
 if __name__ == '__main__':
     app.run(debug=True)
