@@ -44,6 +44,42 @@ db = SQLAlchemy(app)
 def create_tables():
     db.create_all()
 
+class UserModel(db.Model):
+    __tablename__ = 'users'
+    
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(120), unique = True, nullable = False)
+    password = db.Column(db.String(120), nullable = False)
+    
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def find_by_username(cls, username):
+        return cls.query.filter_by(username = username).first()
+    @classmethod
+    def return_all(cls):
+        def to_json(x):
+            return {
+                'username': x.username,
+                'password': x.password
+            }
+        return {'users': list(map(lambda x: to_json(x), UserModel.query.all()))}
+
+    @classmethod
+    def delete_all(cls):
+        try:
+            num_rows_deleted = db.session.query(cls).delete()
+            db.session.commit()
+            return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
+        except:
+            return {'message': 'Something went wrong'}
+    @staticmethod
+    def generate_hash(password):
+        return sha256.hash(password)
+    @staticmethod
+    def verify_hash(password, hash):
+        return sha256.verify(password, hash) 
 # Define Parsers
 userParser = reqparse.RequestParser()
 userParser.add_argument('username', help = 'This field cannot be blank', required = True)
@@ -242,6 +278,111 @@ class Home(Resource):
     def get(self):
         resp = make_response(redirect('http://127.0.0.1:5000/login'))
         return resp
+
+class UserLogoutAccess(Resource):
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        try:
+            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token.add()
+            return {'message': 'Access token has been revoked'}
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+class UserLogoutRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        try:
+            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token.add()
+            return {'message': 'Refresh token has been revoked'}
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+class TokenRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        current_user = get_jwt_identity()
+        access_token = create_access_token(identity = current_user)
+        return {'access_token': access_token}
+
+class AllUsers(Resource):
+    def get(self):
+        return UserModel.return_all()
+    
+    def delete(self):
+        return UserModel.delete_all()
+
+class SecretResource(Resource):
+    @jwt_required
+    def get(self):
+        return {
+            'answer': 42
+        }
+
+class RevokedTokenModel(db.Model):
+    __tablename__ = 'revoked_tokens'
+    id = db.Column(db.Integer, primary_key = True)
+    jti = db.Column(db.String(120))
+    
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    @classmethod
+    def is_jti_blacklisted(cls, jti):
+        query = cls.query.filter_by(jti = jti).first()
+        return bool(query)
+
+class UserRegistration(Resource):
+    def post(self):
+        data = userParser.parse_args()
+
+        if UserModel.find_by_username(data['username']):
+            resp = make_response(redirect('http://127.0.0.1:5000/login'))
+            return resp
+
+        new_user = UserModel(
+            username = data['username'],
+            password = UserModel.generate_hash(data['password'])
+            )
+        try:
+            resp = make_response(redirect('http://127.0.0.1:5000/login'))
+            new_user.save_to_db()
+            access_token = create_access_token(identity = data['username'])
+            refresh_token = create_refresh_token(identity = data['username'])
+            set_cookie('access_token_cookie', access_token)
+            set_cookie('refresh_token_cookie', refresh_token)
+            return resp
+        except:
+            return {'message': 'Something went wrong'}, 500
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('registration.html'),headers)
+class UserLogin(Resource):
+    def post(self):
+        data = userParser.parse_args()
+        current_user = UserModel.find_by_username(data['username'])
+        if not current_user:
+            resp = make_response(redirect('http://127.0.0.1:5000/register'))
+            return resp
+
+        
+        if UserModel.verify_hash(data['password'], current_user.password):
+            access_token = create_access_token(identity = data['username'])
+            refresh_token = create_refresh_token(identity = data['username'])
+            resp = make_response(redirect('http://127.0.0.1:5000/Dashboard'))
+            resp.set_cookie('access_token_cookie', access_token)
+            resp.set_cookie('refresh_token_cookie', refresh_token)
+            return resp
+        else:
+            return {'message': 'Wrong credentials'}
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('login.html'),headers)
+
 """
 @app.route('/')
 def index():
@@ -275,5 +416,12 @@ def sectorReport():
 
 api.add_resource(Dashboard, '/dashboard')
 api.add_resource(Home, '/')
+api.add_resource(UserRegistration, '/register')
+api.add_resource(UserLogin, '/login')
+api.add_resource(UserLogoutAccess, '/logout/access')
+api.add_resource(UserLogoutRefresh, '/logout/refresh')
+api.add_resource(TokenRefresh, '/token/refresh')
+api.add_resource(AllUsers, '/users')
+api.add_resource(SecretResource, '/secret')
 if __name__ == '__main__':
     app.run(debug=True)
