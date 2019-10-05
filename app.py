@@ -13,6 +13,42 @@ import plotly
 import json 
 
 app = Flask(__name__)
+
+# Add Tokens for Login
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+)
+app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+#app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh' and '/logout/refresh'
+jwt = JWTManager(app)
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return RevokedTokenModel.is_jti_blacklisted(jti)
+
+# User Database connection
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'some-secret-string'
+db = SQLAlchemy(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+# Define Parsers
+userParser = reqparse.RequestParser()
+userParser.add_argument('username', help = 'This field cannot be blank', required = True)
+userParser.add_argument('password', help = 'This field cannot be blank', required = True)
+
+
 # Load data
 df_full = pd.read_csv('FinalOut.csv',dtype={'Mirai': str})
 df_full.dropna(how='any', inplace = True, subset = ["Latitude","Longitude"])
@@ -23,6 +59,7 @@ df = df.sample(n = 20000)
 df_index = df_full.set_index('ip')
 mapbox_access_token = open(".mapbox_token").read()
 titleurl = "https://api.mapbox.com/styles/v1/matthiasrathbun/cjzkl54et19gf1cpgi3ettgzq.html?fresh=true&title=true"
+
 
 def makeGraph():
     """
@@ -193,10 +230,14 @@ def makeIoTSectorPie():
     fig.update_layout(title_text="Top 10 Business Sectors: Exploited IoT Devices")
     fig_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return fig_json
+
+
 @app.route('/')
 def index():
     folium_div = makeGraph()
     return render_template('index_folium.html', folium_div = folium_div)
+
+@app.route('/login', methods = ['GET'])
 
 @app.route('/country')
 def countryReport():
