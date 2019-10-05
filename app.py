@@ -271,8 +271,19 @@ def makeIoTSectorPie():
 class Dashboard(Resource):
     def get(self):
         folium_div = makeGraph()
+        countryPlot = makeCountryPie()
+        miraiPlot = makeMiraiPie()
+        IoTPlot = makeIoTPie()
+        ISP_Plot = makeISPie()
+        mirai_ISP = makeMiraiISPie()
+        IoT_ISP = makeIoTISPie()
+        Sector_Plot = makeSectorPie()
+        mirai_sector = makeMiraiSectorPie()
+        IoT_sector = makeIoTSectorPie()
         headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('index_folium.html', folium_div = folium_div),headers)
+        return make_response(render_template('dashboard.html', folium_div = folium_div, country_Plot = countryPlot, 
+        country_IoTPlot = IoTPlot, country_MiraiPlot = miraiPlot, ISP_Plot = ISP_Plot, ISP_IoTPlot = IoT_ISP,
+        ISP_MiraiPlot = mirai_ISP, sector_Plot = Sector_Plot, sector_IoTPlot = IoT_sector, sector_MiraiPlot = mirai_sector),headers)
 
 class Home(Resource):
     def get(self):
@@ -392,22 +403,22 @@ def countryReport():
     countryPlot = makeCountryPie()
     miraiPlot = makeMiraiPie()
     IoTPlot = makeIoTPie()
-    return render_template('reports.html', Plot = countryPlot, 
-    IoTPlot = IoTPlot, MiraiPlot = miraiPlot)
+    return render_template('reports.html', country_Plot = countryPlot, 
+    country_IoTPlot = IoTPlot, country_MiraiPlot = miraiPlot)
 
 @app.route('/isp')
 def ispReport():
     ISP_Plot = makeISPie()
     mirai_ISP = makeMiraiISPie()
     IoT_ISP = makeIoTISPie()
-    return render_template('reports.html', Plot = ISP_Plot, IoTPlot = IoT_ISP, MiraiPlot = mirai_ISP)
+    return render_template('reports.html', ISP_Plot = ISP_Plot, ISP_IoTPlot = IoT_ISP, ISP_MiraiPlot = mirai_ISP)
 
 @app.route('/sector')
 def sectorReport():
     Sector_Plot = makeSectorPie()
     mirai_sector = makeMiraiSectorPie()
     IoT_sector = makeIoTSectorPie()
-    return render_template('reports.html', Plot = Sector_Plot, IoTPlot = IoT_sector, MiraiPlot = mirai_sector)
+    return render_template('dashboard.html', sector_Plot = Sector_Plot, sector_IoTPlot = IoT_sector, sector_MiraiPlot = mirai_sector)
 """
 
 api.add_resource(Dashboard, '/dashboard')
