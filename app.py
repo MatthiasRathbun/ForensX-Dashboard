@@ -351,10 +351,6 @@ class UserRegistration(Resource):
         try:
             resp = make_response(redirect('http://127.0.0.1:5000/login'))
             new_user.save_to_db()
-            access_token = create_access_token(identity = data['username'])
-            refresh_token = create_refresh_token(identity = data['username'])
-            set_cookie('access_token_cookie', access_token)
-            set_cookie('refresh_token_cookie', refresh_token)
             return resp
         except:
             return {'message': 'Something went wrong'}, 500
@@ -373,7 +369,7 @@ class UserLogin(Resource):
         if UserModel.verify_hash(data['password'], current_user.password):
             access_token = create_access_token(identity = data['username'])
             refresh_token = create_refresh_token(identity = data['username'])
-            resp = make_response(redirect('http://127.0.0.1:5000/Dashboard'))
+            resp = make_response(redirect('http://127.0.0.1:5000/dashboard'))
             resp.set_cookie('access_token_cookie', access_token)
             resp.set_cookie('refresh_token_cookie', refresh_token)
             return resp
