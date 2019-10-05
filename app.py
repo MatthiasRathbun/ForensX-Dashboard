@@ -336,7 +336,7 @@ class UserLogoutAccess(Resource):
 
 class UserLogoutRefresh(Resource):
     @jwt_refresh_token_required
-    def post(self):
+    def get(self):
         jti = get_raw_jwt()['jti']
         try:
             revoked_token = RevokedTokenModel(jti = jti)
