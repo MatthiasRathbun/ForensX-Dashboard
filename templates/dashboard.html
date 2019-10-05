@@ -43,16 +43,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/" style="
+      <a class="navbar-brand" href="/dashboard" style="
       padding-left: 50px;">IPGeo Dashboard</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a id="polls_color" href="/country">Countries</a></li>
-        <li><a id="polls_color" href="/isp">ISP's</a></li>
-        <li><a id="polls_color" href="/sector">Business Sectors</a></li>
-        <li><a id="polls_color" href="https://ipgeo.azurewebsites.net/">IPGeo API</a></li>
+          <li><a id="polls_color" href="#Map">Map</a></li>
+        <li><a id="polls_color" href="#Devices">Devices</a></li>
+        <li><a id="polls_color" href="#Mirai">Mirai</a></li>
+        <li><a id="polls_color" href="#IoT">IoT</a></li>
+        <li><a id="polls_color" href="/logout/access">Logout</a></li>
           </ul>
         </li>
         </ul>
@@ -134,34 +135,28 @@
     <script type="text/javascript">
       CKEDITOR.replace('editor')
     </script>
-    <script type="text/javascript">
-      document.getElementById("github").onclick = function () {
-          location.href = "https://github.com";
-      };
-    </script>
-    <script type="text/javascript">
-      document.getElementById("sample").onclick = function () {
-          location.href = "/dlSample";
-      }; 
-      </script>
 <body>
 
 
   <section class="section section-dark">
-    <h2>Infected Devices</h2>
+    <a id="Map"></a>
+    <h2>Map of Exploited Devices</h2>
       {{ folium_div|safe }}
   </section>
   <section class="section section-dark">
+    <a id="Devices"></a>
     <h2>Infected Devices</h2>
       <div id="exploited_Devices" class="chart">
         </div>
     </section>
     <section class="section section-dark">
+      <a id="Mirai"></a>
       <h2>Mirai Botnets</h2>
         <div id="exploited_Mirai" class="chart">
           </div>
     </section>
     <section class="section section-dark">
+      <a id="IoT"></a>
       <h2>Infected IoT</h2>
         <div id="exploited_IoT" class="chart">
           </div>

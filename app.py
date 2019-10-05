@@ -85,7 +85,6 @@ userParser = reqparse.RequestParser()
 userParser.add_argument('username', help = 'This field cannot be blank', required = True)
 userParser.add_argument('password', help = 'This field cannot be blank', required = True)
 
-
 # Load data
 df_full = pd.read_csv('FinalOut.csv',dtype={'Mirai': str})
 df_full.dropna(how='any', inplace = True, subset = ["Latitude","Longitude"])
@@ -94,8 +93,6 @@ df = pd.DataFrame(df_full)
 df.dropna(how='any', inplace = True)
 df = df.sample(n = 20000)
 df_index = df_full.set_index('ip')
-mapbox_access_token = open(".mapbox_token").read()
-titleurl = "https://api.mapbox.com/styles/v1/matthiasrathbun/cjzkl54et19gf1cpgi3ettgzq.html?fresh=true&title=true"
 
 
 def makeGraph():
@@ -328,7 +325,7 @@ class Home(Resource):
 
 class UserLogoutAccess(Resource):
     @jwt_required
-    def post(self):
+    def get(self):
         jti = get_raw_jwt()['jti']
         try:
             revoked_token = RevokedTokenModel(jti = jti)
@@ -426,37 +423,6 @@ class UserLogin(Resource):
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('login.html'),headers)
 
-"""
-@app.route('/')
-def index():
-    folium_div = makeGraph()
-    return render_template('index_folium.html', folium_div = folium_div)
-
-@app.route('/login', methods = ['GET'])
-
-@app.route('/country')
-def countryReport():
-    countryPlot = makeCountryPie()
-    miraiPlot = makeMiraiPie()
-    IoTPlot = makeIoTPie()
-    return render_template('reports.html', country_Plot = countryPlot, 
-    country_IoTPlot = IoTPlot, country_MiraiPlot = miraiPlot)
-
-@app.route('/isp')
-def ispReport():
-    ISP_Plot = makeISPie()
-    mirai_ISP = makeMiraiISPie()
-    IoT_ISP = makeIoTISPie()
-    return render_template('reports.html', ISP_Plot = ISP_Plot, ISP_IoTPlot = IoT_ISP, ISP_MiraiPlot = mirai_ISP)
-
-@app.route('/sector')
-def sectorReport():
-    Sector_Plot = makeSectorPie()
-    mirai_sector = makeMiraiSectorPie()
-    IoT_sector = makeIoTSectorPie()
-    return render_template('dashboard.html', sector_Plot = Sector_Plot, sector_IoTPlot = IoT_sector, sector_MiraiPlot = mirai_sector)
-"""
-
 api.add_resource(Dashboard, '/dashboard')
 api.add_resource(Home, '/')
 api.add_resource(UserRegistration, '/register')
@@ -466,5 +432,6 @@ api.add_resource(UserLogoutRefresh, '/logout/refresh')
 api.add_resource(TokenRefresh, '/token/refresh')
 api.add_resource(AllUsers, '/users')
 api.add_resource(SecretResource, '/secret')
+
 if __name__ == '__main__':
     app.run(debug=True)
