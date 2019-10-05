@@ -1,4 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, session, url_for, jsonify, make_response
+from flask_restful import Resource, Api, reqparse
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+from flask_sqlalchemy import SQLAlchemy
+from passlib.hash import pbkdf2_sha256 as sha256
 import folium
 from folium.plugins import FastMarkerCluster
 import pandas as pd
@@ -6,6 +11,7 @@ from IPython.display import IFrame
 import plotly.graph_objects as go
 import plotly
 import json 
+
 app = Flask(__name__)
 # Load data
 df_full = pd.read_csv('FinalOut.csv',dtype={'Mirai': str})
@@ -213,3 +219,6 @@ def sectorReport():
     mirai_sector = makeMiraiSectorPie()
     IoT_sector = makeIoTSectorPie()
     return render_template('reports.html', Plot = Sector_Plot, IoTPlot = IoT_sector, MiraiPlot = mirai_sector)
+
+if __name__ == '__main__':
+    app.run(debug=True)
