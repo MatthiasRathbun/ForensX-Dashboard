@@ -152,36 +152,18 @@
       {{ folium_div|safe }}
   </section>
   <section class="section section-dark">
-    <h2>Country Report</h2>
-      <div id="country_Plot" class="chart">
-        </div>
-        <br>
-      <div id="country_IoTPlot" class="chart">
-        </div>
-        <br>
-      <div id="country_MiraiPlot" class="chart">
+    <h2>Infected Devices</h2>
+      <div id="exploited_Devices" class="chart">
         </div>
     </section>
     <section class="section section-dark">
-      <h2>ISP Report</h2>
-        <div id="ISP_Plot" class="chart">
-          </div>
-          <br>
-        <div id="ISP_IoTPlot" class="chart">
-          </div>
-          <br>
-        <div id="ISP_MiraiPlot" class="chart">
+      <h2>Mirai Botnets</h2>
+        <div id="exploited_Mirai" class="chart">
           </div>
     </section>
     <section class="section section-dark">
-      <h2>Sector Report</h2>
-        <div id="sector_Plot" class="chart">
-          </div>
-          <br>
-        <div id="sector_IoTPlot" class="chart">
-          </div>
-          <br>
-        <div id="sector_MiraiPlot" class="chart">
+      <h2>Infected IoT</h2>
+        <div id="exploited_IoT" class="chart">
           </div>
       </section>
 
@@ -191,46 +173,18 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
-  var graphs = {{country_Plot | safe}};
-  Plotly.plot('country_Plot',graphs,{});        
+  var graphs = {{exploited_Devices | safe}};
+  Plotly.plot('exploited_Devices',graphs,{});        
 </script>
 
 <script type="text/javascript">
-  var graphs = {{country_IoTPlot | safe}};
-  Plotly.plot('country_IoTPlot',graphs,{});        
+  var graphs = {{exploited_Mirai | safe}};
+  Plotly.plot('exploited_Mirai',graphs,{});        
 </script>
 
 <script type="text/javascript">
-  var graphs = {{country_MiraiPlot | safe}};
-  Plotly.plot('country_MiraiPlot',graphs,{});        
-</script>
-<script type="text/javascript">
-  var graphs = {{ISP_Plot | safe}};
-  Plotly.plot('ISP_Plot',graphs,{});        
-</script>
-
-<script type="text/javascript">
-  var graphs = {{ISP_IoTPlot | safe}};
-  Plotly.plot('ISP_IoTPlot',graphs,{});        
-</script>
-
-<script type="text/javascript">
-  var graphs = {{ISP_MiraiPlot | safe}};
-  Plotly.plot('ISP_MiraiPlot',graphs,{});        
-</script>
-<script type="text/javascript">
-  var graphs = {{sector_Plot | safe}};
-  Plotly.plot('sector_Plot',graphs,{});        
-</script>
-
-<script type="text/javascript">
-  var graphs = {{sector_IoTPlot | safe}};
-  Plotly.plot('sector_IoTPlot',graphs,{});        
-</script>
-
-<script type="text/javascript">
-  var graphs = {{sector_MiraiPlot | safe}};
-  Plotly.plot('sector_MiraiPlot',graphs,{});        
+  var graphs = {{exploited_IoT | safe}};
+  Plotly.plot('exploited_IoT',graphs,{});        
 </script>
 
 
