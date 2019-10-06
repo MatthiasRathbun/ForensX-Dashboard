@@ -91,7 +91,7 @@ df_full.dropna(how='any', inplace = True, subset = ["Latitude","Longitude"])
 print(df_full.shape)
 df = pd.DataFrame(df_full)
 df.dropna(how='any', inplace = True)
-df = df.sample(n = 20000)
+#df = df.sample(n = 20000)
 df_index = df_full.set_index('ip')
 
 
@@ -360,13 +360,6 @@ class AllUsers(Resource):
     def delete(self):
         return UserModel.delete_all()
 
-class SecretResource(Resource):
-    @jwt_required
-    def get(self):
-        return {
-            'answer': 42
-        }
-
 class RevokedTokenModel(db.Model):
     __tablename__ = 'revoked_tokens'
     id = db.Column(db.Integer, primary_key = True)
@@ -432,7 +425,6 @@ api.add_resource(UserLogoutAccess, '/logout/access')
 api.add_resource(UserLogoutRefresh, '/logout/refresh')
 api.add_resource(TokenRefresh, '/token/refresh')
 api.add_resource(AllUsers, '/users')
-api.add_resource(SecretResource, '/secret')
 
 if __name__ == '__main__':
     app.run(debug=True)
