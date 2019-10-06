@@ -308,6 +308,7 @@ def exploitedIoTDevices():
     return fig_json
 
 class Dashboard(Resource):
+    @jwt_required
     def get(self):
         folium_div = makeGraph()
         exploited = exploitedDevices()
@@ -320,7 +321,7 @@ class Dashboard(Resource):
 
 class Home(Resource):
     def get(self):
-        resp = make_response(redirect('http://127.0.0.1:5000/login'))
+        resp = make_response(redirect('/login'))
         return resp
 
 class UserLogoutAccess(Resource):
@@ -385,7 +386,7 @@ class UserRegistration(Resource):
         data = userParser.parse_args()
 
         if UserModel.find_by_username(data['username']):
-            resp = make_response(redirect('http://127.0.0.1:5000/login'))
+            resp = make_response(redirect('/login'))
             return resp
 
         new_user = UserModel(
@@ -393,7 +394,7 @@ class UserRegistration(Resource):
             password = UserModel.generate_hash(data['password'])
             )
         try:
-            resp = make_response(redirect('http://127.0.0.1:5000/login'))
+            resp = make_response(redirect('/login'))
             new_user.save_to_db()
             return resp
         except:
@@ -406,14 +407,14 @@ class UserLogin(Resource):
         data = userParser.parse_args()
         current_user = UserModel.find_by_username(data['username'])
         if not current_user:
-            resp = make_response(redirect('http://127.0.0.1:5000/register'))
+            resp = make_response(redirect('/register'))
             return resp
 
         
         if UserModel.verify_hash(data['password'], current_user.password):
             access_token = create_access_token(identity = data['username'])
             refresh_token = create_refresh_token(identity = data['username'])
-            resp = make_response(redirect('http://127.0.0.1:5000/dashboard'))
+            resp = make_response(redirect('/dashboard'))
             resp.set_cookie('access_token_cookie', access_token)
             resp.set_cookie('refresh_token_cookie', refresh_token)
             return resp
