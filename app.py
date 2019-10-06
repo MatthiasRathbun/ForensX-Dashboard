@@ -91,7 +91,7 @@ df_full.dropna(how='any', inplace = True, subset = ["Latitude","Longitude"])
 print(df_full.shape)
 df = pd.DataFrame(df_full)
 df.dropna(how='any', inplace = True)
-#df = df.sample(n = 20000)
+df = df.sample(n = 20000) #Clustering all on the user takes too long, will look to improve in 2.0.
 df_index = df_full.set_index('ip')
 
 
@@ -132,9 +132,9 @@ def exploitedDevices():
     df_country = df_full.groupby('Country')['ip'].nunique()
     country_labels = df_country.sort_values(ascending=False).index.values
     country_values = df_country.sort_values(ascending=False).values
-    df_label = df_full.groupby('ISP')['ip'].nunique()
-    ISP_labels = df_label.sort_values(ascending=False).index.values
-    ISP_values = df_label.sort_values(ascending=False).values
+    df_ISP = df_full.groupby('ISP')['ip'].nunique()
+    ISP_labels = df_ISP.sort_values(ascending=False).index.values
+    ISP_values = df_ISP.sort_values(ascending=False).values
     df_sector = df_full.groupby('Organization Type')['ip'].nunique()
     sector_labels = df_sector.sort_values(ascending=False).index.values
     sector_values = df_sector.sort_values(ascending=False).values
@@ -148,7 +148,7 @@ def exploitedDevices():
     #ISP
     fig.add_trace(go.Pie(labels=ISP_labels[:20], 
         values=ISP_values[:20], domain = dict(x=[0.5,1])
-        ,text = "Exploited Devices: " + df_label.sort_values(ascending=False).apply(str).values[:20],visible=False))
+        ,text = "Exploited Devices: " + df_ISP.sort_values(ascending=False).apply(str).values[:20],visible=False))
     fig.add_trace(go.Table(header = dict(values=['ISP',"Exploited Devices"]), cells=dict(values = [ISP_labels[:20],ISP_values[:20]])
     ,domain=dict(x=[0, 0.5]),visible=False))
     #Sectors
@@ -416,6 +416,8 @@ class UserLogin(Resource):
     def get(self):
         headers = {'Content-Type': 'text/html'}
         return make_response(render_template('login.html'),headers)
+
+#Alpha Meme https://imgur.com/a/Mmk8PES
 
 api.add_resource(Dashboard, '/dashboard')
 api.add_resource(Home, '/')
