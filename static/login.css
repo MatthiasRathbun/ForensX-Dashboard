@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+background-image: url("landing.jpg");
 background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
@@ -24,7 +24,7 @@ background-color: rgba(0,0,0,0.5) !important;
 .social_icon span{
 font-size: 60px;
 margin-left: 10px;
-color: #FFC312;
+color:  #7c735f;
 }
 
 .social_icon span:hover{
@@ -44,8 +44,8 @@ top: -45px;
 
 .input-group-prepend span{
 width: 50px;
-background-color: #FFC312;
-color: black;
+background-color: #010221;
+color: #7c735f;
 border:0 !important;
 }
 
@@ -68,13 +68,13 @@ margin-right: 5px;
 }
 
 .login_btn{
-color: black;
-background-color: #FFC312;
+color: #7c735f;
+background-color:  	#010221;
 width: 100px;
 }
 
 .login_btn:hover{
-color: black;
+color: #7c735f;
 background-color: white;
 }
 
